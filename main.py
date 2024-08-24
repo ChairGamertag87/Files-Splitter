@@ -1,11 +1,11 @@
-files_count = 101
-files_extension = ".mcfunction"
+files_count = 1
+files_extension = ".txt"
 
 for n in range(files_count):  # Repeat the following block 100 times
     nstr = str(n)
     i = 0
     k = 0
-    number_of_files = 5
+    number_of_files = 1
 
     # Count the number of lines in the file
     number_of_lines = sum(1 for _ in open('files/' + nstr + files_extension))
