@@ -1,25 +1,100 @@
-![alt text](https://cdn.discordapp.com/attachments/1132060986828922920/1276579448178606204/image.png?ex=66ca0ac2&is=66c8b942&hm=e5a04088ce4fe7e8fcca66a45a4361ff7c1f5689449a750fa2afe04a0de9e1b4&)
+# File Splitter Python Script
 
-# Files-Splitter
+This README provides a detailed guide for setting up and using the provided Python script to split large text files into smaller parts.
 
-This Python program is designed to split files into smaller files. Here's a step-by-step breakdown of how the program work: 
+## Overview
+The script processes text files in a specified directory, counts their lines, and splits each file into multiple smaller files. It is particularly useful when working with large datasets or log files.
 
-## <br> First you have to initialize three variables : </br>
+## Features
+- Automatically counts the number of lines in each file.
+- Splits files into smaller parts based on the desired number of parts.
+- Customizable file extensions and input/output directories.
+- Displays details about file processing in the console.
 
-`files_count` : indicates number of files to split. (default = 1) 
+## Requirements
+- Python 3.7 or higher.
+- Input text files stored in the `files/` directory.
+- An output directory named `split_files/`.
 
-`files_extension` : Specifies file extension for the input and output files. (default = .txt) 
+## Setup Instructions
 
- `number_of_files` : This variable indicates how many parts you want to divide the file into. (default = 1)
+1. **Prepare Input Files**:
+   - Place the text files to be split in a folder named `files` (relative to the script's location).
+   - Ensure the files have the specified extension (e.g., `.txt`).
 
-## <br> Next, you need to add and rename your files. </br>
+2. **Configure the Script**:
+   - Update the `files_count` variable to match the number of files to process.
+   - Set `files_extension` to match the extension of the input files (e.g., `.txt`).
+   - If necessary, adjust the `number_of_files` variable to control how many parts each file is split into.
 
-To start, you need to drag your file into the `files` folder and rename it as follows:
+3. **Run the Script**:
+   - Save the script to a `.py` file.
+   - Run the script using Python:
+     ```bash
+     python main.py
+     ```
+   - Processed files will be saved in the `split_files/` directory.
 
-For the first file, `0.txt` then, `1.txt` etc...
+## Code Explanation
 
-## <br> Finally, run the program, and you're all set. </br>
+- **File Line Counting**:
+  ```python
+  number_of_lines = sum(1 for _ in open('files/' + nstr + files_extension))
+  ```
+  Counts the total number of lines in the input file.
 
-Once the program is running, you can find your divided files in the folder `split_files` . The files will be named like this: `0_0.txt`, `0_1.txt` etc...
+- **File Reading**:
+  ```python
+  with open('files/' + nstr + '.mcfunction', 'r') as file:
+      lines = file.readlines()
+  ```
+  Reads all lines from the input file into a list.
 
+- **Lines Per File Calculation**:
+  ```python
+  lines_per_file = number_of_lines // number_of_files
+  remaining_lines = number_of_lines % number_of_files
+  ```
+  Determines how many lines each output file will contain, accounting for any remainder.
+
+- **File Splitting**:
+  ```python
+  with open('split_files/' + nstr + '_' + istr + files_extension , 'w') as file:
+      number_of_lines_to_write = lines_per_file + (1 if i < remaining_lines else 0)
+      for _ in range(number_of_lines_to_write):
+          if k < number_of_lines:
+              file.write(lines[k])
+              k += 1
+  ```
+  Writes the calculated number of lines to each output file.
+
+## Notes
+- Ensure the `files/` directory contains the files to process and `split_files/` exists to store the output.
+- The script handles one file at a time, iterating up to `files_count`.
+- File extensions for input and output files must match the `files_extension` variable.
+
+## Troubleshooting
+- If the script throws an error:
+  - Check that the `files/` directory exists and contains files with the specified extension.
+  - Verify that the `split_files/` directory exists and is writable.
+- If output files are incomplete, ensure `number_of_files` is set to a realistic value based on the size of the input files.
+
+## Example Configuration
+Here’s an example setup:
+
+- Input file: `files/0.txt` (contains 100 lines).
+- Desired number of output files: 4.
+- Script Configuration:
+  ```python
+  files_count = 1
+  files_extension = ".txt"
+  number_of_files = 4
+  ```
+- Output:
+  - `split_files/0_0.txt` (25 lines)
+  - `split_files/0_1.txt` (25 lines)
+  - `split_files/0_2.txt` (25 lines)
+  - `split_files/0_3.txt` (25 lines)
+
+Enjoy splitting your files with ease!
 
